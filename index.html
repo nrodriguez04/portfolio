@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      // Apply a stored theme override before first paint, and flag JS so the
+      // intro can hide content until it plays. Kept tiny on purpose.
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove('no-js');
+        d.classList.add('js');
+        try {
+          var s = localStorage.getItem('color-scheme');
+          if (s === 'light' || s === 'dark') document.querySelector('meta[name="color-scheme"]').content = s;
+          var m = localStorage.getItem('motion');
+          if (m === 'on' || m === 'paused') d.setAttribute('data-motion', m);
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="theme-color" content="#FAF6F0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0A121E" media="(prefers-color-scheme: dark)" />
+    <title>%SITE_NAME% · Customer Success Engineer</title>
+    <meta name="description" content="%SITE_DESCRIPTION%" />
+    <meta name="author" content="%SITE_NAME%" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="%SITE_NAME% · Customer Success Engineer" />
+    <meta property="og:description" content="%SITE_DESCRIPTION%" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <!--app-->
+  </body>
+</html>

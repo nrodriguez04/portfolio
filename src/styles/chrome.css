@@ -1,0 +1,444 @@
+/* ----------------------------------------------------------------- loader */
+
+.loader {
+  display: none;
+}
+
+.js .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  color: var(--cream);
+  /* Failsafe: never trap the page behind the intro if a script fails. */
+  animation: loader-failsafe 0.01s 6s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js:not([data-motion='on']) .loader {
+    display: none;
+  }
+}
+
+@keyframes loader-failsafe {
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.loader__panel {
+  position: absolute;
+  inset: 0;
+}
+.loader__panel--a {
+  background: var(--navy);
+  z-index: 1;
+}
+.loader__panel--b {
+  background: var(--accent);
+}
+
+.loader__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  width: min(360px, 100% - 48px);
+}
+
+.loader__brand {
+  font-family: var(--f-display);
+  font-size: 3.4rem;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.loader__brand em {
+  color: var(--accent);
+  font-weight: 300;
+}
+
+.loader__steps {
+  position: relative;
+  height: 1.6em;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgb(244 238 228 / 0.75);
+}
+.loader__steps li {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.loader__steps li:first-child {
+  opacity: 1;
+}
+
+.loader__bar {
+  width: 100%;
+  height: 2px;
+  background: rgb(244 238 228 / 0.14);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.loader__bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  scale: 0 1;
+}
+
+.loader__count {
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  color: rgb(244 238 228 / 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------------- nav */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Frosted band fades in once the page scrolls, so content never collides
+   with the floating controls. */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--nav-h);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+.nav.is-scrolled::before {
+  opacity: 1;
+}
+.nav:has(~ .menu:not([hidden]))::before {
+  opacity: 0;
+}
+
+.nav__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--nav-h);
+  width: min(var(--maxw), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.nav__bar > * {
+  pointer-events: auto;
+}
+
+.nav__logo {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--bg);
+  transition: border-radius 0.5s var(--ease-out), rotate 0.6s var(--spring);
+}
+.nav__logo:hover {
+  border-radius: 50%;
+  rotate: -8deg;
+}
+.nav__logo-mark {
+  font-family: var(--f-display);
+  font-size: 1.32rem;
+  font-weight: 560;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+.nav__logo-mark em {
+  color: var(--accent);
+  font-weight: 340;
+}
+
+.nav__links {
+  position: relative;
+  display: none;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: 0 10px 30px -18px rgb(15 27 45 / 0.35);
+}
+
+@media (min-width: 960px) {
+  .nav__links {
+    display: block;
+  }
+}
+
+.nav__links ul {
+  position: relative;
+  display: flex;
+  gap: 2px;
+}
+
+.nav__links a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 520;
+  color: var(--ink-2);
+  transition: color 0.3s var(--ease-out);
+}
+.nav__links a:hover {
+  color: var(--ink);
+}
+.nav__links a[aria-current='true'] {
+  color: var(--bg);
+}
+
+.nav__pill {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  height: calc(100% - 10px);
+  width: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  opacity: 0;
+}
+
+.nav__tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav__tools .icon-btn {
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.nav__tools .icon-btn:hover {
+  background: var(--ink);
+}
+
+.nav__progress {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+}
+.nav__progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  scale: 0 1;
+}
+
+/* Theme toggle: the sun's core swells and a bite slides in to make a moon. */
+.theme-toggle__svg {
+  width: 20px;
+  height: 20px;
+  overflow: visible;
+}
+.theme-toggle__core {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: scale 0.6s var(--spring);
+}
+.theme-toggle__bite {
+  transition: translate 0.6s var(--ease-out);
+}
+.theme-toggle__rays {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  transition:
+    rotate 0.6s var(--ease-out),
+    opacity 0.35s,
+    scale 0.5s var(--ease-out);
+}
+.theme-toggle__to-light {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name='color-scheme'][content='light'])) {
+    .theme-toggle__core { scale: 1.55; }
+    .theme-toggle__bite { translate: -8px 4px; }
+    .theme-toggle__rays { rotate: 90deg; opacity: 0; scale: 0.5; }
+    .theme-toggle__to-dark { display: none; }
+    .theme-toggle__to-light { display: inline; }
+  }
+}
+:root:has(> head > meta[name='color-scheme'][content='dark']) {
+  .theme-toggle__core { scale: 1.55; }
+  .theme-toggle__bite { translate: -8px 4px; }
+  .theme-toggle__rays { rotate: 90deg; opacity: 0; scale: 0.5; }
+  .theme-toggle__to-dark { display: none; }
+  .theme-toggle__to-light { display: inline; }
+}
+
+/* Motion toggle shows "pause" while animating, "play" while paused. */
+.motion-toggle__icon {
+  display: grid;
+  place-items: center;
+}
+.motion-toggle__icon .ico {
+  width: 15px;
+  height: 15px;
+}
+.motion-toggle__icon--play {
+  display: none;
+}
+.motion-toggle[aria-pressed='true'] .motion-toggle__icon--pause {
+  display: none;
+}
+.motion-toggle[aria-pressed='true'] .motion-toggle__icon--play {
+  display: grid;
+}
+
+/* Theme change: the new theme grows out of the toggle as a circle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* ------------------------------------------------------------ mobile menu */
+
+.nav__burger {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+}
+
+@media (min-width: 960px) {
+  .nav__burger {
+    display: none;
+  }
+}
+
+.nav__burger-lines {
+  display: grid;
+  gap: 6px;
+  width: 20px;
+}
+.nav__burger-lines i {
+  display: block;
+  height: 1.6px;
+  background: currentColor;
+  border-radius: 2px;
+  transition:
+    translate 0.45s var(--ease-out),
+    rotate 0.45s var(--ease-out);
+}
+.nav__burger[aria-expanded='true'] .nav__burger-lines i:first-child {
+  translate: 0 3.8px;
+  rotate: 45deg;
+}
+.nav__burger[aria-expanded='true'] .nav__burger-lines i:last-child {
+  translate: 0 -3.8px;
+  rotate: -45deg;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--nav-h) + 24px) var(--gutter) 32px;
+  background: var(--navy);
+  color: var(--cream);
+  clip-path: circle(0 at calc(100% - var(--gutter) - 24px) calc(var(--nav-h) / 2));
+}
+.menu[hidden] {
+  display: none;
+}
+
+/* While the menu is open the nav sits on navy. */
+.nav:has(~ .menu:not([hidden])) {
+  .nav__logo {
+    background: var(--cream);
+    color: var(--navy);
+  }
+  .nav__tools .icon-btn {
+    background: transparent;
+    border-color: rgb(244 238 228 / 0.3);
+    color: var(--cream);
+  }
+  .nav__burger {
+    background: var(--cream);
+    color: var(--navy);
+  }
+}
+
+.menu__links {
+  display: grid;
+  gap: 4px;
+}
+.menu__links a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 6px 0;
+  overflow: hidden;
+}
+.menu__num {
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.menu__text {
+  display: inline-block;
+  font-family: var(--f-display);
+  font-size: clamp(2.6rem, 11vw, 4.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.menu__links a:hover .menu__text,
+.menu__links a:focus-visible .menu__text {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.menu__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.menu .btn {
+  --btn-fg: var(--cream);
+  --btn-line: rgb(244 238 228 / 0.3);
+  --btn-hover-bg: var(--cream);
+  --btn-hover-fg: var(--navy);
+}

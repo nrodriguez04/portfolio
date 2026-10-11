@@ -1,0 +1,63 @@
+@property --fill {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+:root {
+  /* The <meta name="color-scheme"> is the single source of truth: the toggle
+     only rewrites it, and these rules map it back onto the cascade. */
+  color-scheme: light dark;
+
+  &:has(> head > meta[name='color-scheme'][content='dark']) {
+    color-scheme: dark;
+  }
+  &:has(> head > meta[name='color-scheme'][content='light']) {
+    color-scheme: light;
+  }
+
+  --cream: #faf6f0;
+  --navy: #0f1b2d;
+
+  --bg: light-dark(#faf6f0, #0a121e);
+  --bg-2: light-dark(#f2eadf, #0e1928);
+  --ink: light-dark(#0f1b2d, #f4eee4);
+  --ink-2: light-dark(#475166, #aab2c2);
+  --ink-3: light-dark(#5f6779, #8a94a7);
+  --line: light-dark(rgb(15 27 45 / 0.14), rgb(244 238 228 / 0.12));
+  --line-strong: light-dark(rgb(15 27 45 / 0.32), rgb(244 238 228 / 0.28));
+
+  /* Navy cards stay navy in both schemes; dark mode lifts them a step. */
+  --card: light-dark(#0f1b2d, #14223a);
+  --card-line: rgb(244 238 228 / 0.12);
+  --on-card: #f4eee4;
+  --on-card-2: rgb(244 238 228 / 0.72);
+  --on-card-3: rgb(244 238 228 / 0.55);
+
+  --accent: light-dark(#d94f25, #ff6a3d);
+  --accent-soft: light-dark(rgb(217 79 37 / 0.12), rgb(255 106 61 / 0.16));
+  --on-accent: #fff;
+  --live: #35b872;
+  --amber: #f2b441;
+  --glow: #ffb28f;
+
+  --shadow-lg: light-dark(0 40px 80px -40px rgb(15 27 45 / 0.55), 0 40px 80px -40px rgb(0 0 0 / 0.9));
+  --shadow-md: light-dark(0 18px 40px -22px rgb(15 27 45 / 0.45), 0 18px 40px -22px rgb(0 0 0 / 0.8));
+
+  --f-display: 'Fraunces Variable', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --f-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --spring: linear(
+    0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.077, 1.114 24.2%,
+    1.131 27.1%, 1.122 30.9%, 1.025 42.3%, 0.994 49.2%, 0.989 55.3%, 1.002 72.6%, 1
+  );
+
+  --gutter: clamp(16px, 4vw, 44px);
+  --maxw: 1280px;
+  --nav-h: 76px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+}
